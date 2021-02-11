@@ -1,6 +1,0 @@
-version: "3.9"
-services:
-  question_service:
-    build: .
-    ports:
-      - "3031:3031"
