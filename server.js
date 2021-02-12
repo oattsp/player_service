@@ -58,6 +58,25 @@ app.get('/player/:id', requireJWTAuth, async (req, res) => {
     }
 })
 
+app.get('/player/code/:code_game', requireJWTAuth, async (req, res) => {
+    try {
+        const result = await db.Players.findAll({
+            where: {'code_game': req.params.code_game}
+        })
+        if (result) {
+            res.status(200).json(result)  
+        } else {
+            res.status(404).json({
+                message: 'player not found!!'
+            })  
+        }
+    } catch (error) {      
+        res.status(500).json({
+            message: error.message
+        })   
+    }
+})
+
 app.post('/player', async (req, res) => {
     try {
         const player = await db.Players.create(req.body)
