@@ -137,6 +137,28 @@ app.delete('/player/:id', requireJWTAuth, async (req, res) => {
     }
 })
 
+app.delete('/player', requireJWTAuth, async (req, res) => {
+    try {
+        const deleted = await db.Players.destroy({
+            where: {},
+            truncate: true
+        })
+        if (deleted) {
+            res.status(204).json({
+                message: 'player deleted'
+            })  
+        } else {
+            res.status(404).json({
+                message: 'player not found!!'
+            })  
+        }
+    } catch (error) {      
+        res.status(500).json({
+            message: error.message
+        })   
+    }
+})
+
 const PORT = process.env.PORT || 3000
 const ENV = process.env.NODE_ENV || 'development'
 app.listen(PORT, ()=>{
